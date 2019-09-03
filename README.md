@@ -8,10 +8,10 @@ Now days they are lot of rest API application out there
 the question is always what to use.
 
 In this demo I am focussing on:
-    - Django (DRF)
-    - FastAPI
-    - Flask
-    - Falcon
+* Django (DRF)
+* FastAPI
+* Flask
+* Falcon
 
 Each one of them are very use and have their own use case. 
 The reason why I am implementing Yara (Yet Another Rest API)
@@ -41,12 +41,12 @@ Easy to start with:
 
 1 - Clone the repo:
 
-    ```bash
+    ```
     git clone https://github.com/ChristfriedBalizou/yara.git && cd yara
     ```
 
 2 - Run the server:
      
-    ```bash
+    ```
     python serve [port] [host]
     ```
