@@ -34,16 +34,82 @@ https://docs.python.org/3/library/http.server.html#module-http.server
 """
 
 import sys
+import json
+from typing import Dict
 
+from http import HTTPStatus
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
-DEFAULT_PORT = 8000
+DEFAULT_PORT: int = 8000
 """Default socket bind port
 """
 
-DEFAULT_HOST = "0.0.0.0"
+DEFAULT_HOST: str = "0.0.0.0"
 """Default socket bind host
 """
+
+
+def yara():
+    """Simple hello function returning a json string
+    containing a message.
+    """
+
+    return json.dumps({"message": "Hello Yara, Yet Another Rest API"})
+
+
+ROUTES: Dict[str, str] = {
+        '/': yara,
+        '/yara': yara,
+}
+"""This variable store all routes that need to be exposed
+externally.
+
+Register all routes into global variable.
+You an choose to write down a decorator it maybe look fancy
+
+Note that representation is:
+    { "path": callback }
+
+TODO: Write complex route using python "re" built-in library 
+"""
+
+
+class Handler(BaseHTTPRequestHandler):
+    """Implement handler methods as do_GET and do_POST
+
+    We are only going to implement do_GET.
+    For more informations read;
+    https://docs.python.org/3/library/http.server.html#http.server.BaseHTTPRequestHandler
+    """
+
+    def _headers(self,
+                 status: HTTPStatus = HTTPStatus.OK,
+                 content_type: str = 'application/json'):
+        """Prepare response headers
+
+        This function should be called before each response
+        sent back
+        """
+        self.send_response(status)
+        self.send_header('Content-type', content_type)
+        self.end_headers()
+
+    def do_GET(self):
+        """This function handle all method that
+        came in using a GET header
+        """
+        
+        try:
+            output = ROUTES[self.path]()
+            
+            self._headers()
+            self.wfile.write(output.encode('utf-8'))
+        except KeyError:
+            """The route is not found we return a 404 error
+            """
+            self._headers(status=HTTPStatus.NOT_FOUND)
+            return
+
 
 def run(host: str, port: int):
     """This function start a ThreadingHTTPServer
@@ -52,7 +118,7 @@ def run(host: str, port: int):
 
     try:
         print(f'Server is running on {host}:{port}')
-        ThreadingHTTPServer((host, port), BaseHTTPRequestHandler).serve_forever()
+        ThreadingHTTPServer((host, port), Handler).serve_forever()
         """Et Voila!!! Our server will be serving on the given
         port and host
         """
