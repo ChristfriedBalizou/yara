@@ -50,12 +50,17 @@ def run(host: str, port: int):
     with a given HTTP Handler bind to a host and port
     """
 
-    print(f'Server is running on {host}:{port}')
-
-    ThreadingHTTPServer((host, port), BaseHTTPRequestHandler).serve_forever()
-    """Et Voila!!! Our server will be serving on the given
-    port and host
-    """
+    try:
+        print(f'Server is running on {host}:{port}')
+        ThreadingHTTPServer((host, port), BaseHTTPRequestHandler).serve_forever()
+        """Et Voila!!! Our server will be serving on the given
+        port and host
+        """
+    except KeyboardInterrupt:
+        """Catch Ctrl+c
+        """
+        print('Server shutdown.')
+        sys.exit(0)
 
 
 if __name__ == "__main__":
