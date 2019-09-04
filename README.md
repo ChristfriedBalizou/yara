@@ -8,10 +8,10 @@ Now days they are lot of rest API application out there
 the question is always what to use.
 
 In this demo I am focussing on:
-* Django (DRF)
-* FastAPI
-* Flask
-* Falcon
+* [Django (DRF)](https://github.com/encode/django-rest-framework/tree/master)
+* [FastAPI](https://github.com/tiangolo/fastapi)
+* [Flask](https://github.com/pallets/flask/blob/1.1.x/docs/index.rst)
+* [Falcon](https://github.com/falconry/falcon)
 
 Each one of them are very use and have their own use case. 
 The reason why I am implementing Yara (Yet Another Rest API)
